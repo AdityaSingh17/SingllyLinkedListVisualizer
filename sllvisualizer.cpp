@@ -117,6 +117,54 @@ NODE insert_specified(int item, NODE first)
     return first;
 }
 
+// Delete node from Front of Linked List.
+NODE delete_front(NODE first)
+{
+    NODE temp;
+    if(first == NULL)
+    {
+        printf("The list is empty,  cannot delete!\n");
+        count++;
+        succ = 0;
+        return first;
+    }
+    temp = first;
+    temp = temp->link;
+    printf("Deleted item  =  %d \n", first->info);
+    free(first);
+    return temp;
+}
+
+// Delete node from Rear of Linked List.
+NODE delete_rear(NODE first)
+{
+    NODE cur, prev;
+    if(first == NULL)
+    {
+        printf("The list is empty,  cannot delete!\n");
+        count++;
+        succ = 0;
+        return first;
+    }
+        if(first->link == NULL)
+    {
+        printf("Item to be deleted is %d \n", first->info);
+        free(first);
+        return NULL;
+    }
+    prev = NULL;
+    cur = first;
+    while(cur->link != NULL)
+    {
+        prev = cur;
+        cur = cur->link;
+    }
+    printf("Deleted item  =  %d \n", cur->info);
+    free(cur);
+    prev->link = NULL;
+    return first;
+}
+
 // Action on option.
 void option(int choice)
 {
@@ -150,9 +198,21 @@ void option(int choice)
             else
                 printf("NEW NODE INSERTED\n");
             break;
-        case 4: // TODO
+        case 4:
+            succ = 1;
+            first = delete_front(first);
+            count--;
+            lldisplay();
+            if(succ)
+                printf("NODE DELETED\n");
             break;
-        case 5: // TODO
+        case 5:
+            succ = 1;
+            first = delete_rear(first);
+            count--;
+            lldisplay();
+            if(succ)           
+                printf("NODE DELETED\n");
             break;   
         case 6: // TODO     
             break;   
@@ -172,9 +232,9 @@ int main()
         printf("\n1. Insert Front");
         printf("\n2. Insert Rear");
         printf("\n3. Insert Specified");
-        /* TODO
         printf("\n4. Delete Front");
         printf("\n5. Delete Rear");
+        /* TODO
         printf("\n6. Delete Specified");
         */
         printf("\n7. Exit");
