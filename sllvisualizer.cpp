@@ -165,6 +165,48 @@ NODE delete_rear(NODE first)
     return first;
 }
 
+// Delete a specified node from Linked List.
+NODE delete_specified(NODE first)
+{
+    NODE prev, cur;
+    if(first == NULL)
+    {
+        printf("The list is empty!");
+        count++;
+        succ = 0;
+        return NULL;
+    }
+    printf("Enter the key: ");
+    scanf("%d", &key);
+    if(key == first->info)
+    {
+        cur = first;
+        first = first->link;
+        free(cur);
+        return first;
+    }
+    prev = NULL;
+    cur = first;
+    while(cur != NULL)
+    {
+        if(key == cur->info)
+            break;
+        prev = cur;
+        cur = cur->link;
+    }
+    if(cur == NULL)
+    {
+        printf("Search is unsuccessful!\n");
+        count++;
+        succ1 = 0;
+        succ = 0;     
+        return first;    
+    }
+    prev->link = cur->link;
+    free(cur);
+    return first;
+}
+
 // Action on option.
 void option(int choice)
 {
@@ -214,7 +256,15 @@ void option(int choice)
             if(succ)           
                 printf("NODE DELETED\n");
             break;   
-        case 6: // TODO     
+        case 6:
+            succ = succ1 = 1;
+            first = delete_specified(first);
+            count--;
+            lldisplay();               
+            if(succ)
+                printf("NODE DELETED\n");
+            if(!succ1)
+                printf("KEY NODE DOESN'T EXIST\n");  
             break;   
         case 7:
             exit(0);
@@ -234,9 +284,7 @@ int main()
         printf("\n3. Insert Specified");
         printf("\n4. Delete Front");
         printf("\n5. Delete Rear");
-        /* TODO
         printf("\n6. Delete Specified");
-        */
         printf("\n7. Exit");
         printf("\nEnter choice: ");
         scanf("%d",&choice);
