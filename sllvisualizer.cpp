@@ -16,6 +16,8 @@ static NODE first = NULL; // First node of Linked List.
 static int count = 0,  flag = 1;
 int succ = 1, succ1 = 1, ins_succ = 1;
 int choice, item, key;
+float color[4][3] = {{1.0, 1.0, 1.0}, {0.8, 0.0, 0.0, }, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.8}};
+int drawstringflag = 0, printflag = 1;
 
 // Allocate memory for node.
 NODE getnode()
@@ -207,8 +209,8 @@ NODE delete_specified(NODE first)
     return first;
 }
 
-// Action on option.
-void option(int choice)
+// Option menu for Linked List operations.
+void sll_menu(int choice)
 {
     switch(choice)
     {
@@ -273,22 +275,65 @@ void option(int choice)
     }
 }
 
-// Main function.
-int main()
+// Initialize window properties. 
+void init()
 {
-    int choice;
-    while(1)
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glColor3f(0.0, 1.0, 1.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0.0, 640.0, 0.0, 480.0);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+// Function to print strings on rendered window.
+void drawstring(float x, float y, char *string, int col, int drawstringflag)
+{
+    char *c;
+    glColor3fv(color[col]);
+    glRasterPos2f(x, y);
+    if (drawstringflag == 0)
     {
-        printf("\n1. Insert Front");
-        printf("\n2. Insert Rear");
-        printf("\n3. Insert Specified");
-        printf("\n4. Delete Front");
-        printf("\n5. Delete Rear");
-        printf("\n6. Delete Specified");
-        printf("\n7. Exit");
-        printf("\nEnter choice: ");
-        scanf("%d",&choice);
-        option(choice);
+        for(c = string; *c != '\0'; c++)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
     }
+    else
+    {
+        for(c = string; *c != '\0'; c++)
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
+    }
+    
+}
+
+// Title display function.
+void title()
+{
+    glClearColor(192.0, 192.0, 192.0, 1.0);
+    drawstring(190.0, 240.0, (char *)"Singly Linked List Visualizer", 1, 0);
+    glFlush();
+}
+
+// Main function.
+int main(int argc, char** argv)
+{
+    printf("                     SINGLY LINKED LIST                       \n\n");
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(640, 480);
+    glutInitWindowPosition(0, 0);
+    glutCreateWindow("Singly Linked List Visualizer");
+    glutCreateMenu(sll_menu);
+    glutAddMenuEntry("Insert Front", 1);
+    glutAddMenuEntry("Insert Rear", 2);
+    glutAddMenuEntry("Insert Specified", 3);
+    glutAddMenuEntry("Delete Front", 4);
+    glutAddMenuEntry("Delete Rear", 5);
+    glutAddMenuEntry("Delete Specified", 6);
+    glutAddMenuEntry("Exit", 7);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+    glutDisplayFunc(title);
+    init();
+    glutMainLoop();   
     return 0;
 }
