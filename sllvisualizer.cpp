@@ -27,7 +27,7 @@ static NODE first = NULL; // First node of Linked List.
 static int count = 0,  flag = 1;
 int succ = 1, succ1 = 1, ins_succ = 1;
 int choice, item, key;
-float color[4][3] = {{1.0, 1.0, 1.0}, {0.8, 0.0, 0.0, }, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.8}};
+float color[4][3] = {{1.0, 1.0, 1.0}, {0.8, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.8}};
 int drawstringflag = 0, printflag = 1, titleflag = 1;
 
 // Allocate memory for node.
@@ -136,7 +136,7 @@ NODE delete_front(NODE first)
     NODE temp;
     if(first == NULL)
     {
-        printf("The list is empty,  cannot delete!\n");
+        printf("The list is empty, cannot delete!\n");
         count++;
         succ = 0;
         return first;
@@ -154,7 +154,7 @@ NODE delete_rear(NODE first)
     NODE cur, prev;
     if(first == NULL)
     {
-        printf("The list is empty,  cannot delete!\n");
+        printf("The list is empty, cannot delete!\n");
         count++;
         succ = 0;
         return first;
@@ -184,7 +184,7 @@ NODE delete_specified(NODE first)
     NODE prev, cur;
     if(first == NULL)
     {
-        printf("The list is empty!");
+        printf("The list is empty, cannot delete!\n");
         count++;
         succ = 0;
         return NULL;
@@ -313,12 +313,16 @@ void drawstring(float x, float y, char *string, int col, int drawstringflag)
         for(c = string; *c != '\0'; c++)
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *c);
     }
-    else
+    else if (drawstringflag == 1)
     {
         for(c = string; *c != '\0'; c++)
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *c);
     }
-    
+    else
+    {
+        for(c = string; *c != '\0'; c++)
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);
+    }
 }
 
 // Delay function.
@@ -334,7 +338,8 @@ void delay()
 void title()
 {
     glClearColor(192.0, 192.0, 192.0, 1.0);
-    drawstring(190.0, 240.0, (char *)"Singly Linked List Visualizer", 1, 0);
+    drawstring(170.0, 240.0, (char *)"Singly Linked List Visualizer", 1, 2);
+    drawstring(15.0, 70.0, (char *)"Click Right Mouse Button for operations menu", 3, 0);
     glFlush();
 }
 
@@ -368,63 +373,64 @@ void display()
             GLfloat x1 = 50, y1 = 200, x2 = 80, y2 = 225;
             GLfloat x3 = 110, y3 = 250, x4 = 95, y4 = 225;
             GLfloat x5 = 160, y5 = 210, y6 = 240, x6 = 180;
+            int pos = 120; // Constant multiplier for positioning.
             if(first->link == NULL)
             {
                 glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_LINES);
-                    glVertex2i(x2+k*130, y3);                   
-                    glVertex2i(x3+k*130, y1);
+                    glVertex2i(x2+k*pos, y3);                   
+                    glVertex2i(x3+k*pos, y1);
                 glEnd();
             }
             if(temp->link == NULL)
             {
                 glColor3f(0.8, 0.2, 0.70);
                 glBegin(GL_POLYGON);
-                    glVertex2i(x1+k*130, y1);
-                    glVertex2i(x1+k*130, y3);
-                    glVertex2i(x2+k*130, y3);
-                    glVertex2i(x2+k*130, y1);
+                    glVertex2i(x1+k*pos, y1);
+                    glVertex2i(x1+k*pos, y3);
+                    glVertex2i(x2+k*pos, y3);
+                    glVertex2i(x2+k*pos, y1);
                 glEnd();
                 glColor3f(0.0, 0.60, 0.80);
                 glBegin(GL_POLYGON);
-                    glVertex2i(x2+k*130, y1);
-                    glVertex2i(x2+k*130, y3);
-                    glVertex2i(x3+k*130, y3);
-                    glVertex2i(x3+k*130, y1);
+                    glVertex2i(x2+k*pos, y1);
+                    glVertex2i(x2+k*pos, y3);
+                    glVertex2i(x3+k*pos, y3);
+                    glVertex2i(x3+k*pos, y1);
                 glEnd();
                 glColor3f(0.0, 0.0, 0.0);
                 glBegin(GL_LINES);
-                    glVertex2i(x2+k*130, y3);
-                    glVertex2i(x3+k*130, y1);
+                    glVertex2i(x2+k*pos, y3);
+                    glVertex2i(x3+k*pos, y1);
                 glEnd();
             }
             else
             {
                 glColor3f(0.0f, 0.0f, 0.0f);
                 glBegin(GL_LINES);
-                    glVertex2i(x4+k*130, y4);
-                    glVertex2i(x6+k*130, y4);
+                    glVertex2i(x4+k*pos, y4);
+                    glVertex2i(x6+k*pos, y4);
                 glEnd();
                 glColor3f(0.0f, 0.0f, 0.0f);
                 glBegin(GL_LINES);
-                    glVertex2i(x5+k*130, y6);
-                    glVertex2i(x6+k*130, y4);
-                    glVertex2i(x6+k*130, y4);
-                    glVertex2i(x5+k*130, y5);
+                    glVertex2i(x5+k*pos, y6);
+                    glVertex2i(x6+k*pos, y4);
+                    glVertex2i(x6+k*pos, y4);
+                    glVertex2i(x5+k*pos, y5);
                 glEnd();
                 glColor3f(0.8, 0.20, 0.70);
                 glBegin(GL_POLYGON);
-                    glVertex2i(x1+k*130, y1);
-                    glVertex2i(x1+k*130, y3);
-                    glVertex2i(x2+k*130, y3);
-                    glVertex2i(x2+k*130, y1);
+                    glVertex2i(x1+k*pos, y1);
+                    glVertex2i(x1+k*pos, y3);
+                    glVertex2i(x2+k*pos, y3);
+                    glVertex2i(x2+k*pos, y1);
                 glEnd();
                 glColor3f(0.0, 0.60, 0.80);
                 glBegin(GL_POLYGON);
-                    glVertex2i(x2+k*130, y1);
-                    glVertex2i(x2+k*130, y3);
-                    glVertex2i(x3+k*130, y3);
-                    glVertex2i(x3+k*130, y1);
+                    glVertex2i(x2+k*pos, y1);
+                    glVertex2i(x2+k*pos, y3);
+                    glVertex2i(x3+k*pos, y3);
+                    glVertex2i(x3+k*pos, y1);
                 glEnd();
             }
             b[j] = temp->info;
@@ -434,11 +440,11 @@ void display()
             ar[i].p = ar[i].p+48;
             ar[i].q = ar[i].q+48;
             glColor3f(1.0, 1.0, 0.0);
-            glRasterPos2f(60.0+k*130, 225.0);
+            glRasterPos2f(55.0+k*pos, 215.0);
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].p);
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].q);
-            drawstring(50.0+k*130, 185, (char *)"INFO", 1, 1);
-            drawstring(85.0+k*130, 185, (char *)"LINK", 1, 1);
+            drawstring(50.0+k*pos, 185, (char *)"INFO", 1, 1);
+            drawstring(85.0+k*pos, 185, (char *)"LINK", 1, 1);
             i++;
             j++;
             glFlush();
