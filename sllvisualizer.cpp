@@ -64,6 +64,7 @@ void lldisplay()
             printf("\n");
         }
     }
+    printf("\n");
 }
 
 // Insert element from Front of Linked list.
@@ -373,11 +374,11 @@ void display()
             GLfloat x1 = 50, y1 = 200, x2 = 80, y2 = 225;
             GLfloat x3 = 110, y3 = 250, x4 = 95, y4 = 225;
             GLfloat x5 = 160, y5 = 210, y6 = 240, x6 = 180;
-            int pos = 120; // Constant multiplier for positioning.
+            int pos = 130; // Constant multiplier for positioning.
             if(first->link == NULL)
             {
                 glColor3f(0.0, 0.0, 0.0);
-                glBegin(GL_LINES);
+                glBegin(GL_LINES); // Slash to indicate termination of Linked list.
                     glVertex2i(x2+k*pos, y3);                   
                     glVertex2i(x3+k*pos, y1);
                 glEnd();
@@ -385,21 +386,21 @@ void display()
             if(temp->link == NULL)
             {
                 glColor3f(0.8, 0.2, 0.70);
-                glBegin(GL_POLYGON);
+                glBegin(GL_POLYGON); // Info box.
                     glVertex2i(x1+k*pos, y1);
                     glVertex2i(x1+k*pos, y3);
                     glVertex2i(x2+k*pos, y3);
                     glVertex2i(x2+k*pos, y1);
                 glEnd();
                 glColor3f(0.0, 0.60, 0.80);
-                glBegin(GL_POLYGON);
+                glBegin(GL_POLYGON); // Next link box.
                     glVertex2i(x2+k*pos, y1);
                     glVertex2i(x2+k*pos, y3);
                     glVertex2i(x3+k*pos, y3);
                     glVertex2i(x3+k*pos, y1);
                 glEnd();
                 glColor3f(0.0, 0.0, 0.0);
-                glBegin(GL_LINES);
+                glBegin(GL_LINES); // Slash to indicate termination of Linked list.s
                     glVertex2i(x2+k*pos, y3);
                     glVertex2i(x3+k*pos, y1);
                 glEnd();
@@ -407,26 +408,26 @@ void display()
             else
             {
                 glColor3f(0.0f, 0.0f, 0.0f);
-                glBegin(GL_LINES);
+                glBegin(GL_LINES); // Line pointing to next node.
                     glVertex2i(x4+k*pos, y4);
                     glVertex2i(x6+k*pos, y4);
                 glEnd();
                 glColor3f(0.0f, 0.0f, 0.0f);
-                glBegin(GL_LINES);
+                glBegin(GL_LINES); // Arrow marks.
                     glVertex2i(x5+k*pos, y6);
                     glVertex2i(x6+k*pos, y4);
                     glVertex2i(x6+k*pos, y4);
                     glVertex2i(x5+k*pos, y5);
                 glEnd();
                 glColor3f(0.8, 0.20, 0.70);
-                glBegin(GL_POLYGON);
+                glBegin(GL_POLYGON); // Info box.
                     glVertex2i(x1+k*pos, y1);
                     glVertex2i(x1+k*pos, y3);
                     glVertex2i(x2+k*pos, y3);
                     glVertex2i(x2+k*pos, y1);
                 glEnd();
                 glColor3f(0.0, 0.60, 0.80);
-                glBegin(GL_POLYGON);
+                glBegin(GL_POLYGON); // Next link box.
                     glVertex2i(x2+k*pos, y1);
                     glVertex2i(x2+k*pos, y3);
                     glVertex2i(x3+k*pos, y3);
@@ -441,7 +442,7 @@ void display()
             ar[i].q = ar[i].q+48;
             glColor3f(1.0, 1.0, 0.0);
             glRasterPos2f(55.0+k*pos, 215.0);
-            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].p);
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].p); // Print Node value.
             glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].q);
             drawstring(50.0+k*pos, 185, (char *)"INFO", 1, 1);
             drawstring(85.0+k*pos, 185, (char *)"LINK", 1, 1);
