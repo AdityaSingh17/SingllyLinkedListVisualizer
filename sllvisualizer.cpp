@@ -3,12 +3,23 @@
 #include<stdlib.h>
 #include<GL/glut.h>
 
+// Function prototype section.
+void display();
+void drawstring(float x, float y, char *string, int col, int drawstringflag);
+
 // NODE structure for linked list.
 struct node
 {
     int info;
     struct node *link;
 };
+
+// Structure to store values for display on visualizer.
+struct arr
+{
+    int p;
+    int q;
+}ar[20];
 
 // Global Variable section.
 typedef struct node* NODE;
@@ -17,7 +28,7 @@ static int count = 0,  flag = 1;
 int succ = 1, succ1 = 1, ins_succ = 1;
 int choice, item, key;
 float color[4][3] = {{1.0, 1.0, 1.0}, {0.8, 0.0, 0.0, }, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.8}};
-int drawstringflag = 0, printflag = 1;
+int drawstringflag = 0, printflag = 1, titleflag = 1;
 
 // Allocate memory for node.
 NODE getnode()
@@ -220,7 +231,8 @@ void sll_menu(int choice)
             first = insert_front(item, first);
             count++;
             lldisplay();
-            printf("NEW NODE INSERTED\n");
+            display();
+            drawstring(200.0, 130.0, (char *)"NEW NODE INSERTED", 2, 0);
             break;
         case 2:
             printf("Enter the item to be inserted: ");
@@ -228,7 +240,8 @@ void sll_menu(int choice)
             first = insert_rear(item, first);
             count++;
             lldisplay();
-            printf("NEW NODE INSERTED\n");
+            display();
+            drawstring(200.0, 130.0, (char *)"NEW NODE INSERTED", 2, 0);
             break;
         case 3:
             printf("Enter the item to be inserted: ");
@@ -237,41 +250,43 @@ void sll_menu(int choice)
             first = insert_specified(item, first);
             count++;
             lldisplay();
+            display();
             if(!ins_succ)
-                printf("KEY NODE DOESN'T EXIST\n");
+                drawstring(200.0, 130.0, (char *)"KEY NODE DOESN'T EXIST", 2, 0);
             else
-                printf("NEW NODE INSERTED\n");
+                drawstring(200.0, 130.0, (char *)"NEW NODE INSERTED", 2, 0);
             break;
         case 4:
             succ = 1;
             first = delete_front(first);
             count--;
             lldisplay();
+            display();
             if(succ)
-                printf("NODE DELETED\n");
+                drawstring(200.0, 130.0, (char *)"NODE DELETED", 2, 0);
             break;
         case 5:
             succ = 1;
             first = delete_rear(first);
             count--;
             lldisplay();
+            display();
             if(succ)           
-                printf("NODE DELETED\n");
+                drawstring(200.0, 130.0, (char *)"NODE DELETED", 2, 0);
             break;   
         case 6:
             succ = succ1 = 1;
             first = delete_specified(first);
             count--;
             lldisplay();               
+            display();               
             if(succ)
-                printf("NODE DELETED\n");
+                drawstring(200.0, 130.0, (char *)"NODE DELETED", 2, 0);
             if(!succ1)
-                printf("KEY NODE DOESN'T EXIST\n");  
+                drawstring(200.0, 130.0, (char *)"KEY NODE DOESN'T EXIST", 2, 0);  
             break;   
         case 7:
             exit(0);
-        default:    
-            printf("\nWrong option selected, please run the program again!");
     }
 }
 
@@ -306,12 +321,129 @@ void drawstring(float x, float y, char *string, int col, int drawstringflag)
     
 }
 
+// Delay function.
+void delay()
+{
+    int i, j;
+    for(i = 0;i < 5000;i++)
+        for(j = 0;j < 5000;j++)
+            ;
+}
+
 // Title display function.
 void title()
 {
     glClearColor(192.0, 192.0, 192.0, 1.0);
     drawstring(190.0, 240.0, (char *)"Singly Linked List Visualizer", 1, 0);
     glFlush();
+}
+
+// Display function for visualizer.
+void display()
+{
+    if(titleflag) // Ensure title is printed only once.
+    {
+        title(); // Render the Title.
+        titleflag = 0;
+    }
+    int i = 0, j = 0, k = 0, b[20];
+    NODE temp;
+    glClearColor(192.0, 192.0, 192.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0, 0.0, 0.6);
+    drawstring(200.0, 450.0, (char *)"SINGLY LINKED LIST", 1, 0);
+    if(first == NULL)
+    {
+        if(printflag)
+        {
+            printf("\nEmpty List\n");
+            printflag = 0;
+        }
+    }
+    temp = first;
+    while(temp != NULL)
+    {
+        for(k = 0;k < count;k++)
+        { 
+            GLfloat x1 = 50, y1 = 200, x2 = 80, y2 = 225;
+            GLfloat x3 = 110, y3 = 250, x4 = 95, y4 = 225;
+            GLfloat x5 = 160, y5 = 210, y6 = 240, x6 = 180;
+            if(first->link == NULL)
+            {
+                glColor3f(0.0, 0.0, 0.0);
+                glBegin(GL_LINES);
+                    glVertex2i(x2+k*130, y3);                   
+                    glVertex2i(x3+k*130, y1);
+                glEnd();
+            }
+            if(temp->link == NULL)
+            {
+                glColor3f(0.8, 0.2, 0.70);
+                glBegin(GL_POLYGON);
+                    glVertex2i(x1+k*130, y1);
+                    glVertex2i(x1+k*130, y3);
+                    glVertex2i(x2+k*130, y3);
+                    glVertex2i(x2+k*130, y1);
+                glEnd();
+                glColor3f(0.0, 0.60, 0.80);
+                glBegin(GL_POLYGON);
+                    glVertex2i(x2+k*130, y1);
+                    glVertex2i(x2+k*130, y3);
+                    glVertex2i(x3+k*130, y3);
+                    glVertex2i(x3+k*130, y1);
+                glEnd();
+                glColor3f(0.0, 0.0, 0.0);
+                glBegin(GL_LINES);
+                    glVertex2i(x2+k*130, y3);
+                    glVertex2i(x3+k*130, y1);
+                glEnd();
+            }
+            else
+            {
+                glColor3f(0.0f, 0.0f, 0.0f);
+                glBegin(GL_LINES);
+                    glVertex2i(x4+k*130, y4);
+                    glVertex2i(x6+k*130, y4);
+                glEnd();
+                glColor3f(0.0f, 0.0f, 0.0f);
+                glBegin(GL_LINES);
+                    glVertex2i(x5+k*130, y6);
+                    glVertex2i(x6+k*130, y4);
+                    glVertex2i(x6+k*130, y4);
+                    glVertex2i(x5+k*130, y5);
+                glEnd();
+                glColor3f(0.8, 0.20, 0.70);
+                glBegin(GL_POLYGON);
+                    glVertex2i(x1+k*130, y1);
+                    glVertex2i(x1+k*130, y3);
+                    glVertex2i(x2+k*130, y3);
+                    glVertex2i(x2+k*130, y1);
+                glEnd();
+                glColor3f(0.0, 0.60, 0.80);
+                glBegin(GL_POLYGON);
+                    glVertex2i(x2+k*130, y1);
+                    glVertex2i(x2+k*130, y3);
+                    glVertex2i(x3+k*130, y3);
+                    glVertex2i(x3+k*130, y1);
+                glEnd();
+            }
+            b[j] = temp->info;
+            temp = temp->link;
+            ar[i].p = b[j]/10;
+            ar[i].q = b[j]%10;
+            ar[i].p = ar[i].p+48;
+            ar[i].q = ar[i].q+48;
+            glColor3f(1.0, 1.0, 0.0);
+            glRasterPos2f(60.0+k*130, 225.0);
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].p);
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ar[i].q);
+            drawstring(50.0+k*130, 185, (char *)"INFO", 1, 1);
+            drawstring(85.0+k*130, 185, (char *)"LINK", 1, 1);
+            i++;
+            j++;
+            glFlush();
+        }
+    }
 }
 
 // Main function.
@@ -332,7 +464,7 @@ int main(int argc, char** argv)
     glutAddMenuEntry("Delete Specified", 6);
     glutAddMenuEntry("Exit", 7);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
-    glutDisplayFunc(title);
+    glutDisplayFunc(display);
     init();
     glutMainLoop();   
     return 0;
